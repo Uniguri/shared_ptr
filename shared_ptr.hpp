@@ -11,10 +11,11 @@ class shared_ptr {
   shared_ptr() = delete;
 
   shared_ptr<T>(T* ptr) : ptr_(ptr) {
-    if (ref_table_.find(ptr_) == ref_table_.end()) {
-      ref_table_[ptr] = 1;
+    const auto& itr = ref_table_.find(ptr_);
+    if (itr == ref_table_.end()) {
+      ref_table_[ptr_] = 1;
     } else {
-      ++ref_table_[ptr];
+      ++itr->second;
     }
   }
   shared_ptr(const shared_ptr<T>& old) : ptr_(old.ptr_) { ++ref_table_[ptr_]; }
